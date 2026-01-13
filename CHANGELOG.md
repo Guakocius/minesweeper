@@ -1,3 +1,60 @@
+# 1.0.0-dev.1 (2026-01-13)
+
+
+### Bug Fixes
+
+* added undo and redo stacks to the save file and load it correctly ([8104b60](https://github.com/Guakocius/minesweeper/commit/8104b6000ae846ef21ed18f00d1552f18926ebad))
+* ASCII-update: emojify is now uglier but compatible with most terminals ([7239aab](https://github.com/Guakocius/minesweeper/commit/7239aabb842e76f4e632f2519b4e9c4ef49a1141))
+* better style ([9817f3c](https://github.com/Guakocius/minesweeper/commit/9817f3cbb485300ee70061477f0eb867c289b479))
+* colorful Game end messages for GUI ([60671c1](https://github.com/Guakocius/minesweeper/commit/60671c19d96c7b48f6f17feb75d322dde2b9b1fc))
+* Edge bug fixed ([92388ae](https://github.com/Guakocius/minesweeper/commit/92388ae5ad8b0062b2c954afa441150cc0db7f33))
+* fixed state of undo from winning state ([f251294](https://github.com/Guakocius/minesweeper/commit/f251294967985ebef5fe4a10fdfa8467f4fd472c))
+* flag bug fixed ([9ee441e](https://github.com/Guakocius/minesweeper/commit/9ee441e5ee50788af36e4785efafc5d1054f7737))
+* generate doesn't generate ([0843150](https://github.com/Guakocius/minesweeper/commit/08431507ad03b67a4b84fcd1018ec425c1616b03))
+* GUI: better starting size ([8b669f8](https://github.com/Guakocius/minesweeper/commit/8b669f87382bb9d2789c59e809cf41619c72e00f))
+* GUI: resize bug fixed ([61d6063](https://github.com/Guakocius/minesweeper/commit/61d6063a00ce866baff5ef8a4612488cde88998d))
+* Guice is now running ([0f7a220](https://github.com/Guakocius/minesweeper/commit/0f7a22082a54c9b0460b400202eb3d3a9b9460d1))
+* Help is now better formatted ([ad1d13e](https://github.com/Guakocius/minesweeper/commit/ad1d13ec0a921a358a102ddf73477934692412c3))
+* load of empty undo ([2009826](https://github.com/Guakocius/minesweeper/commit/20098267bcf81a15547e0078e0f903818ad1bc19))
+* opens also neighbours of starting fields, if they have the value == 0 ([8db595e](https://github.com/Guakocius/minesweeper/commit/8db595e1b064a0c2ad1f285df9c55981b6a711c0))
+* quit cmd is now quitting everything ([07718e9](https://github.com/Guakocius/minesweeper/commit/07718e910e7fa2a2553f1ae12021623a77399906))
+* remove Guice ([6fb3980](https://github.com/Guakocius/minesweeper/commit/6fb398044c3ddfc16500840490874b5a063cb6db))
+* stupidness is now no part of Config.scala ([cf023b7](https://github.com/Guakocius/minesweeper/commit/cf023b7e8fb37334a75c26abc232d2a960b7eecf))
+* tests are using the Try ([5c34ab0](https://github.com/Guakocius/minesweeper/commit/5c34ab051e8ba0420dcd6ff2ebbe30e4e279c2dc))
+* The Feedback of Commands, will be shown in the GUI, if it exists ([c9327c7](https://github.com/Guakocius/minesweeper/commit/c9327c7820070e43ed2c54dde872166f132646cf))
+* Update publishCmd to echo 'hallo' ([bdc8a56](https://github.com/Guakocius/minesweeper/commit/bdc8a56d7272215f34ec3cac1d2b4eec1834aeaa))
+
+
+### Features
+
+* added shortcuts for GUI-Sys CMDS ([0223ed6](https://github.com/Guakocius/minesweeper/commit/0223ed6bf18e9aa720809658942ea16bf07af355))
+* better code structure (3 Patterns) ([08a30cf](https://github.com/Guakocius/minesweeper/commit/08a30cf513cc7c854093737989990cabe1c7ff42))
+* better structure (3 patterns) ([1961a85](https://github.com/Guakocius/minesweeper/commit/1961a85fafadefbe32ff1f11e9fc54256529483f))
+* better structure (3 patterns) ([6d172b8](https://github.com/Guakocius/minesweeper/commit/6d172b8ee71fad3e0ffae961d0259def888e5e2a))
+* colorful TUI board ([6773012](https://github.com/Guakocius/minesweeper/commit/67730124d3de966c1e740681a80a9b359ad999de))
+* Command & SysCmd Component ([214af61](https://github.com/Guakocius/minesweeper/commit/214af610a653cde70b582c2124d3dfc318b5c0f0))
+* Controller & Board Component ([71aa623](https://github.com/Guakocius/minesweeper/commit/71aa62345271657677a1af426979859809aba72b))
+* generate cmd to generate a new board ([3e38a5b](https://github.com/Guakocius/minesweeper/commit/3e38a5b3b92ceb4c3fa1c2feaeb4ccf6c88f8213))
+* GUI is now using with cmd "generate" the new pseudo-generate system! ([9e3d7be](https://github.com/Guakocius/minesweeper/commit/9e3d7be092e2d627f8d034c09fa93c19ced1a565))
+* load: new "force" flag, to load a game file, also if the versions are not the same; ([d30bbb8](https://github.com/Guakocius/minesweeper/commit/d30bbb8e873096618d1782cf24133cdff076cbdf))
+* new Command and System Command system ([0adde92](https://github.com/Guakocius/minesweeper/commit/0adde9278dd52d2b55f8d383fd63c86b789f91cb))
+* new quit system-command ([c743bb4](https://github.com/Guakocius/minesweeper/commit/c743bb493d3e637600d4b120834d82cdfc4b5387))
+* Observer (Views) are now having IDs ([1655e30](https://github.com/Guakocius/minesweeper/commit/1655e306a167ec2cb6e7248d602ae4abca7a95f4))
+* redo and undo can now handle multiple times in one call! ([c0bc1f7](https://github.com/Guakocius/minesweeper/commit/c0bc1f79933198fd473d125385d2c131e26fdf14))
+* redo command ([a33760c](https://github.com/Guakocius/minesweeper/commit/a33760ca0167ef0bcfbeed4348967df38c11644c))
+* Resize ([bd63c24](https://github.com/Guakocius/minesweeper/commit/bd63c243bdc007a5f1ab3b95a4f8903fdbcc4ba2))
+* save & load command ([248fffd](https://github.com/Guakocius/minesweeper/commit/248fffd30eb4cc545e5410deca3c3701682875ac))
+* save and load has now optional params ([1cf3142](https://github.com/Guakocius/minesweeper/commit/1cf3142c2fbb38cef4af53a6e47fa472c19cf65f))
+* specific help messages for commands (type "help <command>") ([8722878](https://github.com/Guakocius/minesweeper/commit/872287891f93395c3dab72a96d7ec293d953a383))
+* start is more intuitive ([5e3cf9f](https://github.com/Guakocius/minesweeper/commit/5e3cf9f8f7823d6c2fc6d141ce4dc709f7dc7c6c))
+* ToolBar ([1b8b400](https://github.com/Guakocius/minesweeper/commit/1b8b4000171985e41adfdef114d9a1ea643e2a0d))
+* uoti ([36b628a](https://github.com/Guakocius/minesweeper/commit/36b628ac32814b1eef8caf0cd28757ddbb4a627e))
+
+
+### BREAKING CHANGES
+
+* added GUI
+
 # [1.4.0-dev.4](https://github.com/Atomarverseucht/minesweeper/compare/1.4.0-dev.3...1.4.0-dev.4) (2026-01-10)
 
 
