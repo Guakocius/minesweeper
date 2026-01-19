@@ -39,8 +39,7 @@ lazy val root = project
     coverageExcludedPackages := ".*Main.*;.*Routes.*;.*Config.*;",
     coverageExcludedFiles := "*Main*",
 
-    libraryDependencies += "org.scalafx" %% "scalafx" % "24.0.2-R36",
-
+    libraryDependencies += "org.scalafx" %% "scalafx" % "21.0.0-R32", // aus Kompatibilität nicht aktueller
     libraryDependencies += "org.scalameta" %% "munit" % "1.2.1" % Test,
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test,
     libraryDependencies += "org.scoverage" % "sbt-coveralls_2.12_1.0" % "1.3.15",
