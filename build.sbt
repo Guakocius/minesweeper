@@ -1,5 +1,7 @@
 val scala3Version = "3.7.3"
 
+enablePlugins(DockerPlugin)
+
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
 ThisBuild / assemblyMergeStrategy := {
     case PathList("META-INF", xs @ _*) => MergeStrategy.discard
@@ -7,6 +9,18 @@ ThisBuild / assemblyMergeStrategy := {
 }
 
 enablePlugins(BuildInfoPlugin)
+
+docker / dockerfile := {
+  // The assembly task generates a fat JAR file
+  val artifact: File = assembly.value
+  val artifactTargetPath = s"/app/${artifact.name}"
+
+  new Dockerfile {
+    from("eclipse-temurin:21-jdk")
+    add(artifact, artifactTargetPath)
+    entryPoint("java", "-jar", artifactTargetPath)
+  }
+}
 
 buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion)
 buildInfoPackage := "de.htwg.winesmeeper"
@@ -31,7 +45,7 @@ lazy val root = project
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test,
     libraryDependencies += "org.scoverage" % "sbt-coveralls_2.12_1.0" % "1.3.15",
     libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.4.0",
-    libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.8" ,
+    libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.8",
 
     sonarProperties ++= Map(
       "sonar.projectKey"       -> "winesmeeper",
