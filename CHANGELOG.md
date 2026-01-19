@@ -1,3 +1,15 @@
+# [2.1.0-dev.1](https://github.com/Atomarverseucht/minesweeper/compare/2.0.1...2.1.0-dev.1) (2026-01-19)
+
+
+### Bug Fixes
+
+* .jar file is now working (important for docker) ([90a90aa](https://github.com/Atomarverseucht/minesweeper/commit/90a90aa5e24cff6de6085e774cddcb15722ca522))
+
+
+### Features
+
+* Docker via sbt-docker ([#46](https://github.com/Atomarverseucht/minesweeper/issues/46)) ([27c061a](https://github.com/Atomarverseucht/minesweeper/commit/27c061a3331dae98bbb90feda60c83f17bf18200))
+
 ## [2.0.1](https://github.com/Atomarverseucht/minesweeper/compare/2.0.0...2.0.1) (2026-01-16)
 
 

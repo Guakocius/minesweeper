@@ -1,5 +1,7 @@
 val scala3Version = "3.7.3"
 
+enablePlugins(DockerPlugin)
+
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
 ThisBuild / assemblyMergeStrategy := {
     case PathList("META-INF", xs @ _*) => MergeStrategy.discard
@@ -8,6 +10,18 @@ ThisBuild / assemblyMergeStrategy := {
 
 enablePlugins(BuildInfoPlugin)
 
+docker / dockerfile := {
+  // The assembly task generates a fat JAR file
+  val artifact: File = assembly.value
+  val artifactTargetPath = s"/app/${artifact.name}"
+
+  new Dockerfile {
+    from("eclipse-temurin:21-jdk")
+    add(artifact, artifactTargetPath)
+    entryPoint("java", "-jar", artifactTargetPath)
+  }
+}
+
 buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion)
 buildInfoPackage := "de.htwg.winesmeeper"
 
@@ -15,23 +29,22 @@ lazy val root = project
   .in(file("."))
   .settings(
     name := "minesweeper",
-    version := "2.0.1",
+    version := "2.1.0-dev.1",
 
     scalaVersion := scala3Version,
     scalacOptions ++= Seq("-encoding", "utf-8"),
     coverageMinimumStmtTotal := 80,
     coverageFailOnMinimum := false,
     coverageHighlighting := true,
-    coverageExcludedPackages := ".*Main.*;.*Routes.*;.*Config.*;",
+    coverageExcludedPackages := "*\\\\/de\\\\/htwg\\\\/winesmeeper\\\\/(?:Main|aView\\\\/(?:TUI|GUI))",
     coverageExcludedFiles := "*Main*",
 
-    libraryDependencies += "org.scalafx" %% "scalafx" % "24.0.2-R36",
-
+    libraryDependencies += "org.scalafx" %% "scalafx" % "21.0.0-R32", // aus Kompatibilität nicht aktueller
     libraryDependencies += "org.scalameta" %% "munit" % "1.2.1" % Test,
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test,
     libraryDependencies += "org.scoverage" % "sbt-coveralls_2.12_1.0" % "1.3.15",
     libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.4.0",
-    libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.8" ,
+    libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.8",
 
     sonarProperties ++= Map(
       "sonar.projectKey"       -> "winesmeeper",
