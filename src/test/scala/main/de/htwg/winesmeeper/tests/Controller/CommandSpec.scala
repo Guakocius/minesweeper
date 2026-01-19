@@ -1,60 +1,67 @@
 package main.de.htwg.winesmeeper.tests.Controller
 
-import de.htwg.winesmeeper.Controller.SysCommands.{LastElemSysCommand, LoadCmd, SysCommandManager}
-import de.htwg.winesmeeper.Controller.Commands.{LastElemCmdCOR, CommandManager}
-import de.htwg.winesmeeper.Controller.Controller
+import de.htwg.winesmeeper.Controller.Commands.ImplSysCommands.LastElemSysCommand
+import de.htwg.winesmeeper.Controller.Commands.ImplTurnCommands.{zLastElemTurnCmdSingleton, OpenFieldCommand, FlagTurnCommand}
+import main.de.htwg.winesmeeper.tests.aView.buildController
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import javafx.scene.input.KeyCode
 
-import scala.util.Failure
-import java.nio.file.{Files, Paths}
+import play.api.libs.json.Json
 
 class CommandSpec extends AnyWordSpec with Matchers:
   "The Command" should:
-    val testCtrl = Controller(10, 10, 1, 1, 25)
-    "should safe and load" in:
-      testCtrl.doSysCmd("save")
-      testCtrl.doSysCmd("load")
-      testCtrl.doSysCmd("help")
-      testCtrl.doSysCmd("help", Vector("", "load"))
+    val testCtrl = buildController(10, 10, 1, 1, 25)
+    "safe, load and help" in:
+      testCtrl.doSysCmd(-1, "save", Vector())
+      testCtrl.doSysCmd(-1, "load", Vector())
+      testCtrl.doSysCmd(-1, "load",Vector("load","efhzgoiuwtgffewzt"))
+      testCtrl.doSysCmd(-1, "help", Vector())
+      testCtrl.doSysCmd(-1, "help", Vector("", "load"))
     "throw Exceptions" in:
-      LastElemCmdCOR.buildCmd("doesn't matter", 5, 5, testCtrl).isFailure shouldBe true
-      LastElemSysCommand.execute(testCtrl,Vector("invalid")).get shouldBe "No such command!"
-      LastElemCmdCOR.getCmd("hi") shouldBe None
+      zLastElemTurnCmdSingleton.buildCmd(-1, "doesn't matter", 5, 5, testCtrl).isFailure shouldBe true
+      LastElemSysCommand.execute(-1, testCtrl,Vector("invalid")).get shouldBe "No such command!"
+      zLastElemTurnCmdSingleton.getCmd("hi") shouldBe None
+      an[IllegalArgumentException] shouldBe thrownBy(zLastElemTurnCmdSingleton.fromXML(<test>t</test>, testCtrl))
+      an[IllegalArgumentException] shouldBe thrownBy(zLastElemTurnCmdSingleton.fromJSON(Json.obj("test" -> "t"), testCtrl))
 
-    "should discard with undo" in:
-      testCtrl.undo.doCmd("flag", 9, 9) shouldBe true
-      testCtrl.undo.doCmd("flag", 8, 8) shouldBe true
-      testCtrl.undo.doCmd("open", 9, 9) shouldBe true
-      testCtrl.doSysCmd("undo")
-      testCtrl.doSysCmd("undo")
+    "discard with undo" in:
+      testCtrl.undo.doCmd(-1, "flag", 9, 9).isSuccess shouldBe true
+      testCtrl.undo.doCmd(-1, "flag", 8, 8).isSuccess shouldBe true
+      testCtrl.undo.doCmd(-1, "open", 9, 9).isSuccess shouldBe true
+      testCtrl.doSysCmd(-1, "undo", Vector())
+      testCtrl.doSysCmd(-1, "undo", Vector())
 
-    "should be false with unvalid turns" in:
-      testCtrl.undo.doCmd("error", 9, 9) shouldBe false
+    "be false with unvalid turns" in:
+     testCtrl.undo.doCmd(-1, "error", 9, 9).isSuccess shouldBe false
+     testCtrl.undo.buildCmd(-1, "flag", 9, 9).isSuccess shouldBe true
+     testCtrl.undo.startCmd(-1, "fuzt", 9, 9).isSuccess shouldBe false
 
-    "should have redo" in:
-      testCtrl.doSysCmd("redo", Vector("", "2"))
-      testCtrl.doSysCmd("undo", Vector("", "2"))
+    "have redo" in:
+      testCtrl.doSysCmd(-1, "redo", Vector("", "2"))
+      testCtrl.doSysCmd(-1, "undo", Vector("", "2"))
+      testCtrl.doSysCmd(-1, "redo", Vector(""))
 
-    "should checks version by loading" in:
-      testCtrl.doSysCmd("save")
-      testCtrl.doSysCmd("load", Vector("load", "file"))
-      testCtrl.doSysCmd("load")
-      Files.write(SysCommandManager.savedGame(Failure(IllegalArgumentException())), "version: invalid\n".getBytes())
-      testCtrl.doSysCmd("load")
+    "checks version by loading" in:
+      testCtrl.doSysCmd(-1, "save", Vector())
+      testCtrl.doSysCmd(-1, "save", Vector("save", "file"))
+      testCtrl.doSysCmd(-1, "load", Vector("load", "file"))
+      testCtrl.doSysCmd(-1, "load", Vector())
 
     "specific help messages:" in:
-      testCtrl.doSysCmd("help", Vector("help", "open"))
-      LoadCmd.getStacks(Failure(IllegalArgumentException()), testCtrl)
-
-      CommandManager.firstCommandCOR.getCmd("feuzighoiz") shouldBe None
+      testCtrl.doSysCmd(-1, "help", Vector("help", "open"))
+      testCtrl.undo.getCmd("feuzighoiz") shouldBe None
 
     "have a shortcut" in:
-      testCtrl.doShortCut(KeyCode.H)
-      testCtrl.doShortCut(KeyCode.Z)
-      testCtrl.doShortCut(KeyCode.LEFT_PARENTHESIS)
-      testCtrl.doSysCmd("sduzgasdfui")
+      testCtrl.doShortCut(-1, KeyCode.H)
+      testCtrl.doShortCut(-1, KeyCode.Z)
+      testCtrl.doShortCut(-1, KeyCode.LEFT_PARENTHESIS)
+      testCtrl.doSysCmd(-1, "sduzgasdfui", Vector())
 
     "have a List" in:
       testCtrl.getSysCmdList
+
+    "have a generate command" in:
+      testCtrl.doSysCmd(-1, "generate", Vector("generate","10","10","10"))
+      testCtrl.doSysCmd(-1, "generate", Vector("generate","10","10","1","1","10"))
+      an[Exception] shouldBe thrownBy(testCtrl.doSysCmd(-1, "generate", Vector("generate")))

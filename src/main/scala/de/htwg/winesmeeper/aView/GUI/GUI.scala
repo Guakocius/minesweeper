@@ -1,9 +1,10 @@
 package de.htwg.winesmeeper.aView.GUI
 
+import de.htwg.winesmeeper.Controller.ControllerTrait
 import scalafx.application.{JFXApp3, Platform}
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.Scene
-import scalafx.scene.layout.{BorderPane, GridPane, HBox, Priority}
+import scalafx.scene.layout.{BorderPane, GridPane}
 import scalafx.scene.paint.Color
 import scalafx.scene.input.InputIncludes.jfxMouseEvent2sfx
 import scalafx.scene.input.MouseButton
@@ -13,12 +14,11 @@ import scalafx.scene.text.Text
 import javafx.scene.input.KeyEvent
 import scalafx.scene.text.{Font, FontWeight}
 
-import scala.language.{higherKinds, postfixOps}
+import scala.language.postfixOps
 import scala.util.Try
-import de.htwg.winesmeeper.Controller.Controller
 import de.htwg.winesmeeper.Observer
 
-case class GUI(ctrl: Controller) extends JFXApp3 with Observer:
+case class GUI(ctrl: ControllerTrait) extends JFXApp3 with Observer(ctrl):
 
   private val heightToolBar = 30
   private var fieldSize: Int = 32
@@ -44,7 +44,6 @@ case class GUI(ctrl: Controller) extends JFXApp3 with Observer:
 
   private def boardUI: GridPane =
     val img: Vector[Image] = (for i <- -3 to 8 yield new Image(f"file:src/main/resources/fields/$i.png")).toVector
-    val i = 0
     val grid = new GridPane
     val board: Vector[Vector[Int]] = ctrl.getBoard
     for x <- board.indices; y <- board(0).indices do
@@ -81,11 +80,11 @@ case class GUI(ctrl: Controller) extends JFXApp3 with Observer:
 
   private def turn(cmd: String, x: Int, y: Int): Unit =
     val index = getIndex(x, y)
-    ctrl.turn(cmd, Try(index._1), Try(index._2))
+    ctrl.turn(observerID, cmd, Try(index._1), Try(index._2))
 
   private def keyListener(event: KeyEvent): Unit =
     if event.isControlDown then
-      outputWindowSysCmd(ctrl.doShortCut(event.getCode))
+      outputWindowSysCmd(ctrl.doShortCut(observerID: Int, event.getCode))
 
   private def outputWindowSysCmd(output: Option[String]): Unit =
     output match
@@ -98,7 +97,7 @@ case class GUI(ctrl: Controller) extends JFXApp3 with Observer:
   private def gameEndMsg: Text =
     val f = Font("Arial", FontWeight.Bold, 30)
     ctrl.gameState match
-      case "lose" =>
+      case "lost" =>
         new Text("Game lost!") {
           fill = Color.DarkRed; font = f}
       case "win" =>
@@ -109,8 +108,17 @@ case class GUI(ctrl: Controller) extends JFXApp3 with Observer:
   private def getToolBar: ToolBar =
     val sysCmds = ctrl.getSysCmdList
     val cmds: Seq[Button] = (for cmd <- sysCmds yield
-      new Button(cmd.cmd){
-        
-        onAction = _ => outputWindowSysCmd(ctrl.doSysCmd(cmd.cmd))})
+      new Button(cmd){
+        onAction = _ => outputWindowSysCmd(ctrl.doSysCmd(observerID, cmd, Vector("")))})
     new ToolBar{content = cmds}
+
+  override def generate(): Unit =
+    val dialog = new GeneratorGUI
+    val result = dialog.showAndWait()
+    result match {
+      case Some(data: GeneratorData) =>
+         ctrl.doSysCmd(observerID, "generate", Vector("", data.val1, data.val2, data.val3))
+      case _ =>
+    }
+
 

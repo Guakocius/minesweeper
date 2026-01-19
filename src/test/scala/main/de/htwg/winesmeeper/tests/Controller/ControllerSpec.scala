@@ -1,7 +1,9 @@
 package main.de.htwg.winesmeeper.tests.Controller
 
-import de.htwg.winesmeeper.Controller.Controller
-import de.htwg.winesmeeper.Model.{Board, Field}
+import de.htwg.winesmeeper.Controller.ImplController.{Controller, CORStatEnd, Lost}
+import de.htwg.winesmeeper.Model.ImplBoard.Board
+import de.htwg.winesmeeper.Model.ImplField.Field
+import main.de.htwg.winesmeeper.tests.aView.buildController
 import scala.util.Try
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -10,11 +12,10 @@ class ControllerSpec extends AnyWordSpec with Matchers:
   "The Controller" should:
     val bVec = Vector(Vector(Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false)), Vector(Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false)), Vector(Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false)), Vector(Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false)), Vector(Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,true), Field(false,true), Field(false,true), Field(false,false), Field(false,false), Field(false,false)), Vector(Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,true), Field(false,true), Field(false,true), Field(false,false), Field(false,false), Field(false,false)), Vector(Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,true), Field(false,true), Field(false,true), Field(false,false), Field(false,false), Field(false,false)), Vector(Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false)), Vector(Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false)), Vector(Field(false,false), Field(true,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false), Field(false,false)))
     val ctrl = new Controller(new Board(bVec))
-    ctrl.gb.findBomb
     "have an init function" in:
-      Controller(10,10,1,1,91).gb.getField(9,9) shouldBe -1
-      Controller(10,10,0,0,91).gb.getField(9,9) shouldBe -1
-      Controller(10,10,0,4,91).gb.getField(9,9) shouldBe -1
+      buildController(10,10,1,1,91).gb.getField(9,9) shouldBe -1
+      buildController(10,10,0,0,91).gb.getField(9,9) shouldBe -1
+      buildController(10,10,0,4,91).gb.getField(9,9) shouldBe -1
     "have an output vector" in:
       ctrl.getBoard shouldBe ctrl.gb.getBoard
 
@@ -25,16 +26,25 @@ class ControllerSpec extends AnyWordSpec with Matchers:
       ctrl.inGame shouldBe true
 
     "should have the right game-state" in:
-      ctrl.gameState shouldBe "running"
-      val w = Controller(10, 10, 5, 5, 91)
+      ctrl.gameState shouldBe "start"
+      val w = buildController(10, 10, 5, 5, 91)
       w.gameState shouldBe "win"
-      val l = Controller(10, 10, 5, 5, 90); l.turn("open", Try(1524), Try(1243)); l.turn("open", Try(1), Try(1))
-      l.gameState shouldBe "lose"
+      val l = buildController(10, 10, 5, 5, 90)
+      l.turn(-1, "open", Try(1524), Try(1243)).isSuccess shouldBe false
+      l.turn(-1, "open", Try(1), Try(1)).isSuccess shouldBe true
+      l.gameState shouldBe "lost"
       l.getBoard
 
 
     "should have right states" in:
       ctrl.changeState("running")
+      ctrl.inGame shouldBe true
+      ctrl.changeState("lost")
+      ctrl.inGame shouldBe false
       an[IllegalArgumentException] should be thrownBy ctrl.changeState("fzjhtexhzt")
-      
-      
+      ctrl.changeState("start")
+      an[IndexOutOfBoundsException] should be thrownBy ctrl.turn(-1,"open",Try(21787), Try(817297)).get
+      ctrl.turn(-1, "flag", Try(1), Try(1)).isSuccess shouldBe false
+
+    "have a LastElem" in:
+      CORStatEnd.state(ctrl).gameState shouldBe "lost"
