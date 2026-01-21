@@ -24,7 +24,7 @@ object RedoCmd extends SysCommandCORTrait:
       case Failure(exception) => 1
       case Success(value) => value
     for i <- 1 to count do
-      ctrl.undo.redoStep()
+      Try(ctrl.undo.redoStep())
     ctrl.notifyObservers()
     None
 
