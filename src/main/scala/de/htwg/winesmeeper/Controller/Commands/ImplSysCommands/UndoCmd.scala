@@ -23,8 +23,8 @@ object UndoCmd extends SysCommandCORTrait:
     val count: Int = Try(params(1).toInt) match
       case Failure(exception) => 1
       case Success(value) => value
-    for i <- 1 to count do
-      ctrl.undo.undoStep()
+    for i <- 0 until count do
+      Try(ctrl.undo.undoStep())
     ctrl.notifyObservers()
     None
 
