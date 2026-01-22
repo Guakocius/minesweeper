@@ -11,7 +11,7 @@ trait ControllerTrait extends Observable:
   val undo: TurnCmdManagerTrait
   val sysCmd: SysCommandManagerTrait
   var gb: BoardTrait
-  
+
   def inGame: Boolean
 
   def getBoard: Vector[Vector[Int]]
@@ -29,7 +29,7 @@ trait ControllerTrait extends Observable:
   def doShortCut(observerID: Int, key: KeyCode): Option[String]
 
   def getSysCmdList: List[String]
-  
+
   def changeState(state: String): Unit
-  
+
   def isVictory: Boolean
