@@ -54,6 +54,7 @@ sbt run
 # run tests
 sbt test
 ```
+[Project Presentation](https://docs.google.com/presentation/d/e/2PACX-1vQ3QTf37aSHJQf55_W91Vt7d36si6HmKYi8IIh0PVhKAF9CgUceg2b-p-1muynp_DYkcL2-9DX1p_d0/pub?start=true&loop=true&delayms=3000)
 
 ## Contributing
 If you saw an issue with our project or you want to have a specific feature you can:
