@@ -1,3 +1,13 @@
+# [2.2.0](https://github.com/Atomarverseucht/minesweeper/compare/2.1.0...2.2.0) (2026-01-23)
+
+
+### Features
+
+* Added Docker GUI implementation: Wine-ly boogaloo ([71fbaa9](https://github.com/Atomarverseucht/minesweeper/commit/71fbaa95a0cb38427dc2ced2017f361f02b552b7))
+* Added Docker GUI implementation: Wine-ly boogaloo ([#47](https://github.com/Atomarverseucht/minesweeper/issues/47)) ([83a7659](https://github.com/Atomarverseucht/minesweeper/commit/83a7659767f68d1f1f02710f2fbff003bc283cda))
+* Added presentation Component Diagram ([7851464](https://github.com/Atomarverseucht/minesweeper/commit/7851464668084dbdd947c6a27aeba43d9683f3f0))
+* Added presentation Component Diagram ([#49](https://github.com/Atomarverseucht/minesweeper/issues/49)) ([7c17988](https://github.com/Atomarverseucht/minesweeper/commit/7c1798878f1c5130872dd81eeb206df240c286da))
+
 # [2.2.0-dev.2](https://github.com/Atomarverseucht/minesweeper/compare/2.2.0-dev.1...2.2.0-dev.2) (2026-01-22)
 
 
