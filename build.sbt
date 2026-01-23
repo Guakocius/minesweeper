@@ -103,11 +103,8 @@ lazy val root = project
     ).getAbsolutePath
   )
 
-  val fxVersion = "23"
+  val fxVersion = "21"
   Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
     .map(m => "org.openjfx" % s"javafx-$m" % fxVersion classifier osName)
   }
 )
-
-
-
