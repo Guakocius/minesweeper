@@ -1,3 +1,10 @@
+## [2.2.1-dev.1](https://github.com/Atomarverseucht/minesweeper/compare/2.2.0...2.2.1-dev.1) (2026-01-23)
+
+
+### Bug Fixes
+
+* correct error message ([302ca2c](https://github.com/Atomarverseucht/minesweeper/commit/302ca2cf3a19a8f6e7f380a0c12e51fb0c85f405))
+
 # [2.2.0](https://github.com/Atomarverseucht/minesweeper/compare/2.1.0...2.2.0) (2026-01-23)
 
 

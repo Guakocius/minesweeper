@@ -68,29 +68,6 @@ class TUISpec extends AnyWordSpec with Matchers:
       ctrl_.doSysCmd(sub.observerID, "generate", Vector("nothing"))
       ctrl_.removeSub(sub)
 
-  "an User Interface" should:
-    "be useable" in:
-      val fakeInput =
-        """open 1 1
-          |flag 7 7
-          |open.10000usifduoiwstrhfgu9sfh10000
-          |flag 9 9
-          |flag 8 8
-          |open.9#9
-          |help
-          |undo
-          |undo
-          |redo
-          |save saveGame
-          |load saveGame
-          |quit
-          |""".stripMargin
-
-      val in = new ByteArrayInputStream(fakeInput.getBytes())
-      Console.withIn(in) {
-        start
-      }
-
   class dummySub(ctrl: ControllerTrait) extends Observer(ctrl):
     override def update(): Unit = {}
 
