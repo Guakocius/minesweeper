@@ -4,8 +4,14 @@ enablePlugins(DockerPlugin)
 
 ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
 ThisBuild / assemblyMergeStrategy := {
-    case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-    case x => MergeStrategy.preferProject
+    case PathList("META-INF", "services", xs @ _*) => MergeStrategy.concat
+    case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+    case PathList("META-INF", xs @ _*) if xs.lastOption.exists(_.endsWith(".SF")) => MergeStrategy.discard
+    case PathList("META-INF", xs @ _*) if xs.lastOption.exists(_.endsWith(".DSA")) => MergeStrategy.discard
+    case PathList("META-INF", xs @ _*) if xs.lastOption.exists(_.endsWith(".RSA")) => MergeStrategy.discard
+    case PathList("META-INF", "versions", xs @ _*) => MergeStrategy.first
+    case PathList("module-info.class") => MergeStrategy.discard
+    case x => MergeStrategy.first
 }
 
 enablePlugins(BuildInfoPlugin)
@@ -18,7 +24,19 @@ docker / dockerfile := {
   new Dockerfile {
     from("eclipse-temurin:21-jdk")
     add(artifact, artifactTargetPath)
-    entryPoint("java", "-jar", artifactTargetPath)
+    runRaw("""apt-get update && apt-get install -y \
+    libx11-6 \
+    libxext6 \
+    libxrender1 \
+    libxtst6 \
+    libxi6 \
+    libgtk-3-0 \
+    libglib2.0-0 \
+    libfreetype6 \
+    fontconfig \
+ && rm -rf /var/lib/apt/lists/*""")
+    entryPoint("java")
+    cmd("-Dprism.order=sw", "-Djavafx.platform=gtk", "-jar", artifactTargetPath)
   }
 }
 
@@ -29,7 +47,7 @@ lazy val root = project
   .in(file("."))
   .settings(
     name := "minesweeper",
-    version := "2.1.0",
+    version := "2.2.0-dev.2",
 
     scalaVersion := scala3Version,
     scalacOptions ++= Seq("-encoding", "utf-8"),
@@ -85,11 +103,8 @@ lazy val root = project
     ).getAbsolutePath
   )
 
-  val fxVersion = "23"
+  val fxVersion = "21"
   Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
     .map(m => "org.openjfx" % s"javafx-$m" % fxVersion classifier osName)
   }
 )
-
-
-

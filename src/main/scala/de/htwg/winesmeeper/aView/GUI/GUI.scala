@@ -14,6 +14,8 @@ import scalafx.scene.text.Text
 import javafx.scene.input.KeyEvent
 import scalafx.scene.text.{Font, FontWeight}
 
+import java.util.Objects
+
 import scala.language.postfixOps
 import scala.util.Try
 import de.htwg.winesmeeper.Observer
@@ -43,7 +45,11 @@ case class GUI(ctrl: ControllerTrait) extends JFXApp3 with Observer(ctrl):
     ctrl.addSub(this)
 
   private def boardUI: GridPane =
-    val img: Vector[Image] = (for i <- -3 to 8 yield new Image(f"file:src/main/resources/fields/$i.png")).toVector
+    val img: Vector[Image] = (for i <- -3 to 8 yield {
+      val url = getClass.getResource(s"/fields/$i.png")
+      require(url != null, s"Missing resource: /fields/$i.png")
+      new Image(url.toExternalForm)
+    }).toVector
     val grid = new GridPane
     val board: Vector[Vector[Int]] = ctrl.getBoard
     for x <- board.indices; y <- board(0).indices do
@@ -107,18 +113,15 @@ case class GUI(ctrl: ControllerTrait) extends JFXApp3 with Observer(ctrl):
 
   private def getToolBar: ToolBar =
     val sysCmds = ctrl.getSysCmdList
-    val cmds: Seq[Button] = (for cmd <- sysCmds yield
+    val cmds: Seq[Button] = for cmd <- sysCmds yield
       new Button(cmd){
-        onAction = _ => outputWindowSysCmd(ctrl.doSysCmd(observerID, cmd, Vector("")))})
+        onAction = _ => outputWindowSysCmd(ctrl.doSysCmd(observerID, cmd, Vector("")))}
     new ToolBar{content = cmds}
 
   override def generate(): Unit =
     val dialog = new GeneratorGUI
     val result = dialog.showAndWait()
-    result match {
+    result match
       case Some(data: GeneratorData) =>
          ctrl.doSysCmd(observerID, "generate", Vector("", data.val1, data.val2, data.val3))
       case _ =>
-    }
-
-

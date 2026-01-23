@@ -10,7 +10,7 @@ import scala.util.{Failure, Success, Try}
 class TUI(ctrl: ControllerTrait) extends Observer(ctrl):
   update()
   nextTurn
-  
+
   @tailrec
   final def nextTurn: Unit =
     println(TUIHelp.turn(observerID, readLine, ctrl))
