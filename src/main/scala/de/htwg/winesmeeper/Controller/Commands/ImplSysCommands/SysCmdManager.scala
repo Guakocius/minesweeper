@@ -18,14 +18,14 @@ object SysCommandManager extends SysCommandManagerTrait:
     com match
       case Some(value) => value.execute(observerID, ctrl, params)
       case None => None
-    
+
   override def getSysCmdList: List[SysCommandCORTrait] = firstSysCmd.listCmds
 
   def getAbstractCmd(cmd: String, ctrl: ControllerTrait): Option[AbstractCmdCOR] =
     val sysCmd = firstSysCmd.getSysCmd(cmd)
     if sysCmd.nonEmpty then sysCmd
     else ctrl.undo.getCmd(cmd)
-    
+
   override def doShortCut(observerID: Int, ctrl: ControllerTrait, key: KeyCode): Option[String] =
     val out = firstSysCmd.getSysCmd(key).map[Option[String]](_.execute(observerID, ctrl))
     out match

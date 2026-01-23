@@ -1,0 +1,38 @@
+\documentclass{article}
+
+\usepackage{tikz-uml}
+
+\begin{document}
+	\begin{tikzpicture}
+		\path[use as bounding box](-16,-14) rectangle (12,4);
+		\begin{umlcomponent}[x=-4]{Commands}
+			\umlbasiccomponent{Turn Command}
+			\umlbasiccomponent[y=-3, name=syscmd]{System Command}
+			\umlprovidedinterface[interface=TurnCommandManagerTrait, with port, name=turntrait, distance=4cm, padding=3cm]{Turn Command}
+			\umlprovidedinterface[interface=SystemCommandManagerTrait, with port, name=systrait, distance=4.5cm, padding=3cm]{syscmd}
+		\end{umlcomponent}
+		
+		\umlbasiccomponent[y=-8,x=-3]{Save}
+		\umlbasiccomponent[x=-17, y=-3]{Controller}
+		\umlbasiccomponent[x=-12, y=3]{TUI}
+		\umlbasiccomponent[x=-17, y=3]{GUI}
+		\umlbasiccomponent[x=-17, y=-11]{Board}
+		\umlbasiccomponent[x=-5, y=-11]{Field}
+			
+		\umlassemblyconnector[interface=SaverTrait, with port]{Commands-south-port}{Save-north-port}
+		
+		\umlassemblyconnector[interface=ControllerTrait, with port]{Save-west-port}{Controller-south-port}
+		
+		\umlassemblyconnector[interface=ControllerTrait, with port]{Commands-west-port}{Controller-east-port}
+		
+		\umlassemblyconnector[interface=BoardTrait, with port]{Controller-south-port}{Board-north-port}
+		
+		\umlassemblyconnector[interface=ControllerTrait]{TUI-south-port}{Controller-north-port}
+		\umlassemblyconnector[interface=ControllerTrait]{GUI-south-port}{Controller-north-port}
+		\umlassemblyconnector[interface=FieldTrait, with port]{Board}{Field}
+		
+		\umldelegateconnector{Commands-west-port}{turntrait}
+		\umldelegateconnector{Commands-west-port}{systrait}
+		\umldelegateconnector{Commands-south-port}{systrait}
+	\end{tikzpicture}
+\end{document}

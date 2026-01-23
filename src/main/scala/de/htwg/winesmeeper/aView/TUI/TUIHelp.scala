@@ -13,7 +13,7 @@ object TUIHelp:
          x <- 0 until size._1
     yield
       emojify(b(x)(y)) + (if x == (size._1-1) then "\n" else "")
-    ).mkString
+      ).mkString
 
   // TUI-design of one specific field
   def emojify(field: Int): String =
@@ -24,12 +24,10 @@ object TUIHelp:
       case _ => s"\u001b[1;94m${field}\u001b[0m"
 
   def turn(observerID: Int, input: String, ctrl: ControllerTrait): String =
-    val in = input.split("[^\\w\\d]+").toVector
-    if ctrl.isSysCmd(in(0)) then
-      ctrl.doSysCmd(observerID, in(0), in) getOrElse ""
-    else
-      ctrl.turn(observerID, in(0), Try(in(1).toInt), Try(in(2).toInt)) getOrElse "Invalid command!"
-  
+    val in = input.split("[^\\w\\d]+").toVector.filter(_.nonEmpty)
+    Try(if ctrl isSysCmd(in(0)) then ctrl doSysCmd(observerID, in(0), in) getOrElse ""
+    else ctrl turn(observerID, in(0), Try(in(1).toInt), Try(in(2).toInt)) getOrElse "") getOrElse "Parsing Error"
+
   def gameEndMsg(ctrl: ControllerTrait): String =
     val out = ctrl.gameState match
       case "lost" =>
