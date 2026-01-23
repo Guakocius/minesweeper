@@ -38,6 +38,7 @@ class TUISpec extends AnyWordSpec with Matchers:
       TUIHelp.emojify(-2) shouldBe "*"
       TUIHelp.emojify(-1) shouldBe "\u001b[1;37m#\u001b[0m"
       TUIHelp.emojify(1) shouldBe "\u001b[1;94m1\u001b[0m"
+      TUIHelp.emojify(-3) shouldBe "\u001b[1;31m#\u001b[0m"
 
     "have right end-msgs" in:
       val w = buildController(10, 10, 5, 5, 91)
