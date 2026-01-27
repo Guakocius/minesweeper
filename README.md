@@ -64,7 +64,7 @@ If you saw an issue with our project or you want to have a specific feature you 
 ## Branching model
 - main: stable, release-ready code
 - dev: instable development code
-- feature/*: branches for experimenting with new features
+- else: branches for experimenting with new features
   
 ## License
 See the LICENSE file in the repository for licensing information.
