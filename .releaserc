@@ -47,10 +47,11 @@
         "replacements": [
           {
             "files": [
-              "build.sbt"
+              "build.sbt",
+              "cargo.toml"
             ],
-            "from": "version := \".*\",",
-            "to": "version := \"${nextRelease.version}\",",
+            "from": "version = \".*\",",
+            "to": "version = \"${nextRelease.version}\",",
             "countMatches": true
           }
         ]
@@ -68,7 +69,8 @@
         "assets": [
           "README.md",
           "CHANGELOG.md",
-          "build.sbt"
+          "build.sbt",
+          "cargo.toml"
         ]
       }
     ],
@@ -77,7 +79,8 @@
       {
         "assets": [
           {
-            "path": "target/scala-*/minesweeper-assembly-*.jar"
+            "path": "target/scala-*/minesweeper-assembly-*.jar",
+            "path": "cargo.toml"
           }
         ],
         "successComment": false
