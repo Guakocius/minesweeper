@@ -48,7 +48,7 @@
           {
             "files": [
               "build.sbt",
-              "cargo.toml"
+              "Cargo.toml"
             ],
             "from": "version = \".*\",",
             "to": "version = \"${nextRelease.version}\",",
@@ -70,7 +70,7 @@
           "README.md",
           "CHANGELOG.md",
           "build.sbt",
-          "cargo.toml"
+          "Cargo.toml"
         ]
       }
     ],
