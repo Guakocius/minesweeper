@@ -6,14 +6,14 @@ use ratatui::{
     symbols::border,
     text::{Line, Text},
     widgets::{Block, Paragraph, Widget},
-    DefaultTerminal, Frame,
+    Frame,
 };
 use color_eyre::{
     eyre::{bail, WrapErr},
     Result,
 };
 
-use crate::tui::Tui; 
+use crate::Tui; 
 
 #[derive(Debug, Default)]
 pub struct App {

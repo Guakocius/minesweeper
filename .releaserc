@@ -79,8 +79,10 @@
       {
         "assets": [
           {
-            "path": "target/scala-*/minesweeper-assembly-*.jar",
-            "path": "cargo.toml"
+            "path": "target/scala-*/minesweeper-assembly-*.jar"
+          },
+          {
+            "path": "Cargo.toml"
           }
         ],
         "successComment": false

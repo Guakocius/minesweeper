@@ -1,7 +1,6 @@
 # 1.0.0-dev.1 (2026-01-13)
 
-
-### Bug Fixes
+## Bug Fixes
 
 * added undo and redo stacks to the save file and load it correctly ([8104b60](https://github.com/Guakocius/minesweeper/commit/8104b6000ae846ef21ed18f00d1552f18926ebad))
 * ASCII-update: emojify is now uglier but compatible with most terminals ([7239aab](https://github.com/Guakocius/minesweeper/commit/7239aabb842e76f4e632f2519b4e9c4ef49a1141))
@@ -23,7 +22,6 @@
 * tests are using the Try ([5c34ab0](https://github.com/Guakocius/minesweeper/commit/5c34ab051e8ba0420dcd6ff2ebbe30e4e279c2dc))
 * The Feedback of Commands, will be shown in the GUI, if it exists ([c9327c7](https://github.com/Guakocius/minesweeper/commit/c9327c7820070e43ed2c54dde872166f132646cf))
 * Update publishCmd to echo 'hallo' ([bdc8a56](https://github.com/Guakocius/minesweeper/commit/bdc8a56d7272215f34ec3cac1d2b4eec1834aeaa))
-
 
 ### Features
 
@@ -49,7 +47,6 @@
 * start is more intuitive ([5e3cf9f](https://github.com/Guakocius/minesweeper/commit/5e3cf9f8f7823d6c2fc6d141ce4dc709f7dc7c6c))
 * ToolBar ([1b8b400](https://github.com/Guakocius/minesweeper/commit/1b8b4000171985e41adfdef114d9a1ea643e2a0d))
 * uoti ([36b628a](https://github.com/Guakocius/minesweeper/commit/36b628ac32814b1eef8caf0cd28757ddbb4a627e))
-
 
 ### BREAKING CHANGES
 
