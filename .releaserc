@@ -60,7 +60,7 @@
     [
       "@semantic-release/exec",
       {
-        "publishCmd": ""
+        "publishCmd": "cargo build --release"
       }
     ],
     [
@@ -79,10 +79,14 @@
       {
         "assets": [
           {
+
             "path": "target/scala-*/minesweeper-assembly-*.jar"
           },
           {
             "path": "Cargo.toml"
+          },
+          {
+            "path": "target/release/winesmeeper-rust"
           }
         ],
         "successComment": false

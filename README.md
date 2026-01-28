@@ -83,3 +83,4 @@ If you saw an issue with our project or you want to have a specific feature you 
 ## License
 
 See the LICENSE file in the repository for licensing information.
+# Winesmeeper written in Rust - the best programming language ever created.

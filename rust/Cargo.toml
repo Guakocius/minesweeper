@@ -11,9 +11,14 @@ name = "winesmeeper-rust"
 path = "src/main/main.rs"
 
 [dependencies]
+anyhow = "1.0.100"
+cargo-llvm-cov = "0.8.2"
 color-eyre = "0.6.3"
 crossterm = "0.29.0"
+egui = "0.33.3"
 ratatui = "0.30.0"
+serde = "1.0.228"
+xmltree = "0.12.0"
 
 # Read the optimization guideline for more details: https://ratatui.rs/recipes/apps/release-your-app/#optimizations
 [profile.release]
