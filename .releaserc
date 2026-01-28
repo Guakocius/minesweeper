@@ -60,7 +60,7 @@
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "sbt coverageOff assembly"
+        "publishCmd": ""
       }
     ],
     [
