@@ -49,8 +49,8 @@
             "files": [
               "Cargo.toml"
             ],
-            "from": "version = \".*\",",
-            "to": "version = \"${nextRelease.version}\",",
+            "from": "version = \".*\"\n",
+            "to": "version = \"${nextRelease.version}\"\n",
             "countMatches": true
           }
         ]
