@@ -4,7 +4,7 @@ use ratatui::{
     layout::Rect,
     style::Stylize,
     symbols::border,
-    text::{Line, Text},
+    text::{Line, Text, Span},
     widgets::{Block, Paragraph, Widget},
     Frame,
 };
@@ -13,16 +13,21 @@ use color_eyre::{
     Result,
 };
 
+<<<<<<< HEAD:rust/src/main/app.rs
 <<<<<<<< HEAD:rust/src/main/app.rs
 use crate::Tui; 
 ========
 use crate::Tui;
 >>>>>>>> 845b92b (added observer, model with board and field, and view):src/main/view/tui/app.rs
+=======
+use crate::Tui;
+use crate::model::board::Board;
+>>>>>>> 166f2dcd293967d29e5536fbfe26fe61898c38e9:rust/src/main/view/tui/app.rs
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct App {
-    counter: u8,
-    exit: bool,
+    pub board: Board,
+    pub exit: bool,
 }
 
 impl App {
@@ -32,6 +37,29 @@ impl App {
             self.handle_events().wrap_err("handle events failed")?;
         }
         Ok(())
+    }
+
+    fn board_to_text(&self) -> Text<'static> {
+        let lines: Vec<Line> = self.board.board.iter().enumerate().map(|(y, row)| {
+            let spans: Vec<Span> = row.iter().enumerate().map(|(x, field)| {
+                match field {
+                    f if f.is_flag => "⚑".red(),
+                    f if !f.is_opened => "■".gray(),
+                    f if f.is_bomb => "*".red(),
+                    _ => {
+                        let n = self.board.get_bomb_neighbor(x as isize, y as isize);
+                        if n == 0 {
+                            " ".into()
+                        } else {
+                            n.to_string().cyan()
+                        }
+                    }
+                }
+            }).collect();
+
+            Line::from(spans)
+        }).collect();
+        Text::from(lines)
     }
 
     fn draw(&self, frame: &mut Frame) {
@@ -49,54 +77,96 @@ impl App {
 
     fn handle_key_event(&mut self, key_event: KeyEvent) -> Result<()> {
         match key_event.code {
+            KeyCode::Char('h') => self.show_help_message(),
+            KeyCode::Char('g') => self.generate_board(),
+            KeyCode::Char('r') => self.redo(),
+            KeyCode::Char('u') => self.undo(),
+            KeyCode::Char('s') => self.save_game(),
+            KeyCode::Char('l') => self.load_game(),
             KeyCode::Char('q') => self.exit(),
-            KeyCode::Left => self.decrement_counter()?,
-            KeyCode::Right => self.increment_counter()?,
             _ => {}
         }
         Ok(())
     }
 
+    fn show_help_message(&mut self) {
+
+    }
+    /*fn generate_board(&mut self) -> Board {
+        Board::default()
+    }*/
+    fn generate_board(&mut self) {
+
+    }
+    fn redo(&mut self) {
+
+    }
+    fn undo(&mut self) {
+
+    }
+    fn save_game(&mut self) {
+
+    }
+    fn load_game(&mut self) {
+
+    }
+
     fn exit(&mut self) {
         self.exit = true;
     }
+}
 
-    fn increment_counter(&mut self) -> Result<()> {
-        self.counter += 1;
-        if self.counter > 2 {
-            bail!("counter overflow");
+impl Default for App {
+    fn default() -> Self {
+        let board = Board::new(
+            10, 10,
+            5, 5,
+            10
+        ).expect("failed to create board");
+
+        Self {
+            board,
+            exit: false,
         }
-        Ok(())
-    }
-
-    fn decrement_counter(&mut self) -> Result<()> {
-        self.counter -= 1;
-        Ok(())
     }
 }
 
 impl Widget for &App {
     fn render(self, area: Rect, buf: &mut Buffer) {
-        let title = Line::from(" Counter App Tutorial ".bold());
-        let instructions = Line::from(vec![
-            " Decrement ".into(),
-            "<Left>".blue().bold(),
-            " Increment ".into(),
-            "<Right>".blue().bold(),
+        let title = Line::from(" Winesmeeper - A Minesweeper Saga ".bold());
+
+        let sys_commands = Line::from(vec![
+            " Help ".into(),
+            "<H> ".blue().bold(),
+            " Generate ".into(),
+            "<G> ".blue().bold(),
+            " Redo ".into(),
+            "<R> ".blue().bold(),
+            " Undo ".into(),
+            "<U> ".blue().bold(),
+            " Save ".into(),
+            "<S> ".blue().bold(),
+            " Load ".into(),
+            "<L> ".blue().bold(),
             " Quit ".into(),
             "<Q> ".blue().bold(),
         ]);
+        let turn_commands = Line::from(vec![
+            " Flag ".into(),
+            "<F> ".blue().bold(),
+            " Open Field ".into(),
+            "<O> ".blue().bold(),
+        ]);
+
         let block = Block::bordered()
             .title(title.centered())
-            .title_bottom(instructions.centered())
+            .title_top(sys_commands.centered())
+            .title_bottom(turn_commands.centered())
             .border_set(border::THICK);
 
-        let counter_text = Text::from(vec![Line::from(vec![
-            "Value: ".into(),
-            self.counter.to_string().yellow(),
-        ])]);
+        let board = self.board_to_text();
 
-        Paragraph::new(counter_text)
+        Paragraph::new(board)
             .centered()
             .block(block)
             .render(area, buf)
@@ -137,10 +207,10 @@ mod tests {
     fn handle_key_event() {
         let mut app = App::default();
         app.handle_key_event(KeyCode::Right.into()).unwrap();
-        assert_eq!(app.counter, 1);
+        //assert_eq!(app.counter, 1);
 
         app.handle_key_event(KeyCode::Left.into()).unwrap();
-        assert_eq!(app.counter, 0);
+        //assert_eq!(app.counter, 0);
 
         let mut app = App::default();
         app.handle_key_event(KeyCode::Char('q').into()).unwrap();

@@ -1,1 +1,1 @@
-# Winesmeeper written in Rust
+# Winesmeeper written in Rust - the best programming language ever created.
