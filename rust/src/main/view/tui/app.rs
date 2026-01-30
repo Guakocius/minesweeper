@@ -13,16 +13,9 @@ use color_eyre::{
     Result,
 };
 
-<<<<<<< HEAD:rust/src/main/app.rs
-<<<<<<<< HEAD:rust/src/main/app.rs
-use crate::Tui; 
-========
-use crate::Tui;
->>>>>>>> 845b92b (added observer, model with board and field, and view):src/main/view/tui/app.rs
-=======
+
 use crate::Tui;
 use crate::model::board::Board;
->>>>>>> 166f2dcd293967d29e5536fbfe26fe61898c38e9:rust/src/main/view/tui/app.rs
 
 #[derive(Debug)]
 pub struct App {
