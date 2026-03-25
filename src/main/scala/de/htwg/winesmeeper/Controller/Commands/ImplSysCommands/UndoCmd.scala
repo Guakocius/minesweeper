@@ -15,7 +15,7 @@ object UndoCmd extends SysCommandCORTrait:
     """undo:
       |  discards your latest action!
       |
-      |redo <count>:
+      |undo <count>:
       |  discards your latest <count> actions!
       |""".stripMargin
 

@@ -24,4 +24,3 @@ trait BoardTrait(val board: Vector[Vector[FieldTrait]]):
   def toXml: Node
 
   def fromXml(xml: Node): BoardTrait
-
