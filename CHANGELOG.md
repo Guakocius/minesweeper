@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/Atomarverseucht/minesweeper/compare/2.2.1...2.2.2) (2026-03-25)
+
+
+### Bug Fixes
+
+* typo in specific help message of undo ([a562708](https://github.com/Atomarverseucht/minesweeper/commit/a56270808f0baf890038fac7f966cd3157d88ae7))
+
 ## [2.2.1](https://github.com/Atomarverseucht/minesweeper/compare/2.2.0...2.2.1) (2026-01-23)
 
 
