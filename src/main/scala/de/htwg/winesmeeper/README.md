@@ -1,5 +1,5 @@
 ## Project Structure:
-
+ 
 ### [View:](https://github.com/Atomarverseucht/minesweeper/tree/main/src/main/scala/de/htwg/winesmeeper/aView)
     the code, which is dependent on how you want to see the game, only TUI or (if it is supported) also in the GUI
 

@@ -25,8 +25,6 @@ if [ -z "$JDK21_PATH" ]; then
 fi
 
 echo "Java 21 found at: $JDK21_PATH"
-#export JAVA_HOME="$JDK21_PATH"
-#export PATH="$JAVA_HOME/bin:$PATH"
 
 java -version
 

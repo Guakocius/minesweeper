@@ -64,16 +64,6 @@ lazy val root = project
     libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.4.0",
     libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.8",
 
-    sonarProperties ++= Map(
-      "sonar.projectKey"       -> "winesmeeper",
-      "sonar.projectName"      -> "Scala Winesmeeper",
-      "sonar.host.url"         -> "http://localhost:9000",
-      "sonar.language"         -> "scala",
-      "sonar.scala.coverage.reportPaths" -> "target/scala-3.scoverage-report/scoverage.xml",
-      "sonar.sources"          -> "src/main/scala",
-      "sonar.tests"            -> "src/test/scala"
-    ),
-
     libraryDependencies ++= {
     // Determine OS version of JavaFX binaries
     lazy val osName = System.getProperty("os.name") match {
@@ -82,26 +72,6 @@ lazy val root = project
       case n if n.startsWith("Windows") => "win"
       case _ => throw new Exception("Unknown platform!")
     }
-
-  sonarProperties ++= Map(
-  "sonar.projectKey" -> "winesmeeper",
-  "sonar.projectName" -> "Winesmeeper",
-  "sonar.host.url" -> "http://localhost:9000",
-  "sonar.login" -> sys.env("SONAR_TOKEN"),
-
-  "sonar.sources" -> "src/main/scala",
-  "sonar.tests"   -> "src/test/scala",
-
-  "sonar.exclusions" ->
-    "**/.scala-build/**,**/*.tasty,**/target/**",
-
-  "sonar.scala.coverage.reportPaths" ->
-    ((Compile / target).value /
-      s"scala-${scalaVersion.value}" /
-      "scoverage-report" /
-      "scoverage.xml"
-    ).getAbsolutePath
-  )
 
   val fxVersion = "21"
   Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
